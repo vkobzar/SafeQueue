@@ -65,15 +65,18 @@ class WorkerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->queueManager  = m::mock(QueueManager::class);
-        $this->queue         = m::mock(Queue::class);
-        $this->dispatcher    = m::mock(Dispatcher::class);
-        $this->entityManager = m::mock(EntityManager::class);
-        $this->dbConnection  = m::mock(Connection::class);
-        $this->cache         = m::mock(Repository::class);
-        $this->exceptions    = m::mock(Handler::class);
+        $this->queueManager   = m::mock(QueueManager::class);
+        $this->queue          = m::mock(Queue::class);
+        $this->dispatcher     = m::mock(Dispatcher::class);
+        $this->entityManager  = m::mock(EntityManager::class);
+        $this->dbConnection   = m::mock(Connection::class);
+        $this->cache          = m::mock(Repository::class);
+        $this->exceptions     = m::mock(Handler::class);
+        $isDownForMaintenance = function () {
+            return false;
+        };
 
-        $this->worker = new Worker($this->queueManager, $this->dispatcher, $this->entityManager, $this->exceptions);
+        $this->worker = new Worker($this->queueManager, $this->dispatcher, $this->entityManager, $this->exceptions, $isDownForMaintenance);
 
         $this->options = new WorkerOptions(0, 128, 0, 0, 0);
 
