@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Queue\QueueManager;
 use Illuminate\Queue\Worker as IlluminateWorker;
 use Illuminate\Queue\WorkerOptions;
@@ -27,14 +28,16 @@ use Throwable;
      * @param Dispatcher       $events
      * @param EntityManager    $entityManager
      * @param ExceptionHandler $exceptions
+     * @param \callable        $isDownForMaintenance
      */
     public function __construct(
         QueueManager $manager,
         Dispatcher $events,
         EntityManager $entityManager,
-        ExceptionHandler $exceptions
+        ExceptionHandler $exceptions,
+        callable $isDownForMaintenance
     ) {
-        parent::__construct($manager, $events, $exceptions);
+        parent::__construct($manager, $events, $exceptions, $isDownForMaintenance);
 
         $this->entityManager = $entityManager;
     }
